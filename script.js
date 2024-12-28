@@ -56,6 +56,7 @@ document.getElementById('formulario-automacao').addEventListener('submit', async
         } else {
             throw new Error('Deu ruim');
         }
+        this.reset();
     } catch (error) {
         console.error('Error:', error);
         document.getElementById('response').innerText = error;
