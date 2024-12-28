@@ -85,7 +85,7 @@ function downloadPDF(pdfBase64) {
 
 //Busca de endereço a partir do cep
 async function fetchAddress() {
-    const cep = document.getElementById('cep').value.replace(/\D/g, '');
+    const cep = document.getElementById('cep').value.replace(/[\D-]/g, '');
     if (cep.length !== 8) {
         alert('Por favor, insira um CEP válido.');
         return;
