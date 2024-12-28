@@ -20,6 +20,9 @@ document.querySelectorAll('input[name="tipo"]').forEach((elem) => {
 document.getElementById('formulario-automacao').addEventListener('submit', async function(event) {
     event.preventDefault();
 
+    // Mostrar o loading
+    document.getElementById('loading').style.display = 'flex';
+
     const formData = new FormData(this);
     const data = Object.fromEntries(formData.entries());
     console.log('Sending data:', data);
@@ -40,7 +43,6 @@ document.getElementById('formulario-automacao').addEventListener('submit', async
             throw new Error('Failed to generate PDF');
         }
 
-        // Chamada para salvar dados no Notion
         const notionResponse = await fetch('https://jeff-planner-automation.onrender.com/api/send-to-notion', {
             method: 'POST',
             headers: {
@@ -48,8 +50,6 @@ document.getElementById('formulario-automacao').addEventListener('submit', async
             },
             body: JSON.stringify(data)
         });
-
-        console.log('result: ', notionResponse);
 
         if (notionResponse.ok) {
             console.log('Dados salvos no Notion com sucesso!');
@@ -59,6 +59,9 @@ document.getElementById('formulario-automacao').addEventListener('submit', async
     } catch (error) {
         console.error('Error:', error);
         document.getElementById('response').innerText = error;
+    } finally {
+        // Esconder o loading
+        document.getElementById('loading').style.display = 'none';
     }
 });
 
