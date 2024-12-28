@@ -25,7 +25,7 @@ document.getElementById('formulario-automacao').addEventListener('submit', async
     console.log('Sending data:', data);
 
     try {
-        const response = await fetch('http://localhost:3000/api/generate-pdf', {
+        const response = await fetch('https://jeff-planner-automation.onrender.com/api/generate-pdf', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -41,7 +41,7 @@ document.getElementById('formulario-automacao').addEventListener('submit', async
         }
 
         // Chamada para salvar dados no Notion
-        const notionResponse = await fetch('http://localhost:3000/api/send-to-notion', {
+        const notionResponse = await fetch('https://jeff-planner-automation.onrender.com/api/send-to-notion', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -58,7 +58,7 @@ document.getElementById('formulario-automacao').addEventListener('submit', async
         }
     } catch (error) {
         console.error('Error:', error);
-        document.getElementById('response').innerText = 'An error occurred';
+        document.getElementById('response').innerText = error;
     }
 });
 
