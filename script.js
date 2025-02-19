@@ -1,3 +1,6 @@
+const env = 'test';
+const url = env === 'prd' ? 'https://jeff-planner-automation.onrender.com/api/' : 'http://localhost:3000/api/'
+
 // Gerencia a visibilidade dos campos do cônjuge com base no tipo de mentoria selecionado
 document.querySelectorAll('input[name="tipo"]').forEach((elem) => {
     elem.addEventListener('change', function(event) {
@@ -16,6 +19,50 @@ document.querySelectorAll('input[name="tipo"]').forEach((elem) => {
     });
 });
 
+//versão com webhook do make
+// Lida com o envio do formulário e faz a requisição para o webhook do Make
+document.getElementById('formulario-automacao').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    // Mostrar o loading
+    document.getElementById('loading').style.display = 'flex';
+
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+    const hoje = formatDate(new Date());
+    data.hoje = hoje;
+    const phoneObj = desmembrarTelefone(data.telefone);
+    data.phoneObj = phoneObj;
+    console.log('Enviando dados:', data);
+
+    try {
+        // Envia os dados para o webhook do Make
+        const response = await fetch('https://hook.us2.make.com/80ro5ws3ef39abdz2cykmy1y1sa9ugxs', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            console.log('Dados enviados com sucesso para o webhook!');
+            alert('Dados enviados com sucesso!');
+        } else {
+            throw new Error('Falha ao enviar dados para o webhook');
+        }
+
+        this.reset();
+    } catch (error) {
+        console.error('Erro:', error);
+        document.getElementById('response').innerText = error.message;
+    } finally {
+        // Esconder o loading
+        document.getElementById('loading').style.display = 'none';
+    }
+});
+
+/* versão com api
 // Lida com o envio do formulário e faz a requisição para a API para gerar o PDF
 document.getElementById('formulario-automacao').addEventListener('submit', async function(event) {
     event.preventDefault();
@@ -28,7 +75,7 @@ document.getElementById('formulario-automacao').addEventListener('submit', async
     console.log('Sending data:', data);
 
     try {
-        const response = await fetch('https://jeff-planner-automation.onrender.com/api/generate-pdf', {
+        const response = await fetch(`${url}/generate-pdf`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -38,12 +85,13 @@ document.getElementById('formulario-automacao').addEventListener('submit', async
 
         if (response.ok) {
             const result = await response.json();
-            downloadPDF(result.pdfBase64);
+            // Abrindo o PDF na mesma aba
+            window.location.href = result.url;
         } else {
             throw new Error('Failed to generate PDF');
         }
 
-        const notionResponse = await fetch('https://jeff-planner-automation.onrender.com/api/send-to-notion', {
+        const notionResponse = await fetch(`${url}/send-to-notion`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -59,12 +107,13 @@ document.getElementById('formulario-automacao').addEventListener('submit', async
         this.reset();
     } catch (error) {
         console.error('Error:', error);
-        document.getElementById('response').innerText = error;
+        document.getElementById('response').innerText = error.message;
     } finally {
         // Esconder o loading
         document.getElementById('loading').style.display = 'none';
     }
 });
+**/
 
 // funçao auxiliar para baixar o doc pdf enquanto não temos integraçao com zapsign
 function downloadPDF(pdfBase64) {
@@ -114,3 +163,25 @@ async function fetchAddress() {
         alert('Ocorreu um erro ao buscar o endereço. Tente novamente.');
     }
 }
+
+// Função auxiliar para formatar a data
+function formatDate(date,) {
+    const month = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+
+    const dia = date.getDate();
+    const mes = month[date.getMonth()];
+    const ano = date.getFullYear();
+
+    return `${dia} de ${mes} de ${ano}`;
+}
+
+function desmembrarTelefone(telefoneCompleto) {
+    const ddd = telefoneCompleto.substring(0, 2); // Pegar os dois primeiros dígitos como DDD
+    const numero = telefoneCompleto.substring(2); // O restante é o número do telefone
+  
+    return {
+      country: "55",  // Código do país para o Brasil
+      area: ddd,
+      number: numero
+    };
+  }
