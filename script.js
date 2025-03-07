@@ -37,7 +37,7 @@ document.getElementById('formulario-automacao').addEventListener('submit', async
 
     try {
         // Envia os dados para o webhook do Make
-        const response = await fetch('https://hook.us2.make.com/80ro5ws3ef39abdz2cykmy1y1sa9ugxs', {
+        const response = await fetch('https://hook.us2.make.com/cqb1jqu58zj6c1kghgt0wk9c6r2yo2rt', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
