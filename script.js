@@ -45,9 +45,33 @@ document.getElementById('formulario-automacao').addEventListener('submit', async
             body: JSON.stringify(data)
         });
 
+        const res = await response.json();
+
         if (response.ok) {
             console.log('Dados enviados com sucesso para o webhook!');
-            alert('Dados enviados com sucesso!');
+
+            console.log('response: ', res);
+            console.log('response body: ', res.body);
+
+            // Verificar se o texto contém a URL para redirecionar
+            if (res) {
+                try {
+                    if (res.link) {
+                        // Redirecionar o usuário para a URL fornecida
+                        window.location.href = res.link;
+                    } else {
+                        console.warn('URL de redirecionamento não encontrada na resposta JSON!');
+                        document.getElementById('response').innerText = 'URL de redirecionamento não encontrada na resposta. Por favor, tente novamente.';
+                    }
+                } catch (e) {
+                    // Se não for JSON, assumir que é a URL diretamente
+                    console.log('Resposta não é JSON, assumindo que é a URL:');
+                }
+            } else {
+                // Caso o texto esteja vazio, exibir uma mensagem de erro
+                console.warn('Resposta do servidor vazia!');
+                document.getElementById('response').innerText = 'Resposta do servidor vazia. Por favor, tente novamente.';
+            }
         } else {
             throw new Error('Falha ao enviar dados para o webhook');
         }
