@@ -45,7 +45,7 @@ input[type="tel"] {
 
 .cep-container {
     display: flex;
-    align-items: flex-start; /* Alinha os itens no topo */
+    align-items: flex-start;
     margin-bottom: 15px;
 }
 
@@ -55,7 +55,7 @@ input[type="tel"] {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    height: 40px; /* Altura uniforme */
+    height: 40px;
 }
 
 .cep-container button {
@@ -67,9 +67,9 @@ input[type="tel"] {
     cursor: pointer;
     font-size: 0.9em;
     margin-left: 8px;
-    height: 40px; /* Altura uniforme */
-    min-width: 80px; /* Largura mínima */
-    margin-top: 0; /* Remove qualquer margem superior que possa desalinhá-lo */
+    height: 40px;
+    min-width: 80px;
+    margin-top: 0;
 }
 
 .cep-container button:hover {
@@ -96,6 +96,7 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #0056b3;
 }
+
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -121,4 +122,65 @@ button[type="submit"]:hover {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Estilos para o popup */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+
+    .popup-content {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        position: relative;
+    }
+    
+    .close-button {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+
+.iframe-container {
+    width: 100%;
+    height: calc(100% - 50px); /* Espaço menor para o título e botão de fechamento */
+    overflow: hidden;
+    border-radius: 8px; /* Adiciona cantos arredondados */
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sutil efeito interno */
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Estilos para o checkbox e texto */
+.termos-uso {
+    display: flex; /* Adiciona flexbox */
+    align-items: center; /* Alinha verticalmente */
+    margin-top: 25px; /* Aumenta a margem acima da linha */
+    margin-bottom: 15px;
+}
+
+.termos-uso input[type="checkbox"] {
+    margin-right: 5px; /* Espaço entre o checkbox e o texto */
+    margin-top: 0; /* Remove qualquer margem superior */
+}
+
+.termos-uso .termos-label {
+    font-weight: normal; /* Remove o negrito do label */
+    margin-bottom: 0; /* Remove qualquer margem inferior */
 }
