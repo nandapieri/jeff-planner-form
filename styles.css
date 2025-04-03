@@ -124,7 +124,7 @@ button[type="submit"]:hover {
     100% { transform: rotate(360deg); }
 }
 
-/* Estilos para o popup */
+/* ============= ESTILOS DO POPUP CORRIGIDOS ============= */
 .popup {
     display: none;
     position: fixed;
@@ -132,55 +132,102 @@ button[type="submit"]:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     z-index: 1000;
+    overflow-y: auto;
+    padding: 20px 0;
 }
 
-
-    .popup-content {
-        background: white;
-        padding: 20px;
-        border-radius: 5px;
-        position: relative;
-    }
-    
-    .close-button {
-        position: absolute;
-        right: 15px;
-        top: 10px;
-        font-size: 24px;
-        cursor: pointer;
-    }
-
-
-.iframe-container {
-    width: 100%;
-    height: calc(100% - 50px); /* Espaço menor para o título e botão de fechamento */
-    overflow: hidden;
-    border-radius: 8px; /* Adiciona cantos arredondados */
-    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sutil efeito interno */
+.popup-content {
+    position: relative;
+    background: white;
+    margin: 2% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
+.close-button {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #666;
+    z-index: 1001;
 }
 
-/* Estilos para o checkbox e texto */
+.close-button:hover {
+    color: #333;
+}
+
+/* Estilização da barra de rolagem */
+.popup-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.popup-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.popup-content::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.popup-content::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Estilos para conteúdo dos termos */
+.popup-content h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.popup-content h4 {
+    color: #444;
+    margin: 20px 0 10px;
+}
+
+.popup-content p {
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 15px;
+}
+
 .termos-uso {
-    display: flex; /* Adiciona flexbox */
-    align-items: center; /* Alinha verticalmente */
-    margin-top: 25px; /* Aumenta a margem acima da linha */
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
     margin-bottom: 15px;
 }
 
 .termos-uso input[type="checkbox"] {
-    margin-right: 5px; /* Espaço entre o checkbox e o texto */
-    margin-top: 0; /* Remove qualquer margem superior */
+    margin-right: 5px;
 }
 
 .termos-uso .termos-label {
-    font-weight: normal; /* Remove o negrito do label */
-    margin-bottom: 0; /* Remove qualquer margem inferior */
+    font-weight: normal;
+    margin-bottom: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .popup-content {
+        width: 95%;
+        padding: 20px;
+        margin: 10px auto;
+    }
+    
+    .close-button {
+        right: 15px;
+        top: 10px;
+        font-size: 24px;
+    }
 }
